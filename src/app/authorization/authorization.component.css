@@ -1,0 +1,38 @@
+.auth h1 {
+  text-align: center;
+}
+.form {
+  width: 300px;
+  margin: 0 auto;
+}
+.form__group {
+  display: flex;
+  justify-content: space-between;
+}
+.form__group + .form__group {
+  margin-top: 20px;
+}
+.form__group input {
+  border: 3px solid #000;
+}
+.btn {
+  min-width: 100px;
+  min-height: 50px;
+  border-radius: 0;
+  border: 10px solid #000;
+  cursor: pointer;
+  position: relative;
+  margin: 30px auto;
+  display: block;
+  font-size: 16px;
+}
+.btn:before {
+  position: absolute;
+  content: '';
+  top: -2px;
+  right: -15px;
+  bottom: -15px;
+  left: -2px;
+  background-color: #000;
+  z-index: -1;
+}

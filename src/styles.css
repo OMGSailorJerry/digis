@@ -1,10 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=PT+Mono&display=swap');
-
 * {
-    font-family: 'PT Mono', monospace;
+  font-family: 'PT Mono', monospace;
 }
-
 body {
-    background-color: #ffefca;
+  background-color: #ffefca;
 }

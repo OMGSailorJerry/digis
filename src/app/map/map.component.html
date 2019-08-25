@@ -1,0 +1,25 @@
+<div class="map">
+	<div class="map__header">
+		<div class="map__controls map__controls_top">
+			<div class="map__controls_left">
+				<button class="btn btn_small" (click)="hideMarkers()">Hide</button>
+				<button class="btn btn_small" (click)="showMarkers()">Show</button>
+				<button class="btn btn_small" (click)="saveMarkers()">Save</button>
+			</div>
+
+			<div class="map__controls_right">
+				<button *ngFor="let place of places" class="btn btn_small"
+					(click)="selectPlace(place.type)">{{place.name}}</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="map__main">
+		<div class="map__screen" #googleMap style="width:90%; height:300px"></div>
+
+		<div class="map__controls map__controls_bottom">
+			<button class="btn" (click)="zoomIn()">+</button>
+			<button class="btn" (click)="zoomOut()">-</button>
+		</div>
+	</div>
+</div>

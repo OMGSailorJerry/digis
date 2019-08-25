@@ -1,0 +1,68 @@
+.btn {
+  min-width: 100px;
+  min-height: 50px;
+  border-radius: 0;
+  border: 10px solid #000;
+  cursor: pointer;
+  position: relative;
+}
+.btn:before {
+  position: absolute;
+  content: '';
+  top: -2px;
+  right: -15px;
+  bottom: -15px;
+  left: -2px;
+  background-color: #000;
+  z-index: -1;
+}
+.btn_small {
+  min-width: 60px;
+  min-height: 30px;
+  border-width: 6px;
+}
+.btn_small:before {
+  top: 0px;
+  right: -10px;
+  bottom: -10px;
+  left: 0px;
+}
+.map__controls {
+  display: flex;
+}
+.map__controls_top {
+  justify-content: space-between;
+  font-size: 0;
+  width: 90%;
+}
+.map__controls_top .btn {
+  font-weight: bold;
+}
+.map__controls_top .btn + .btn {
+  margin-left: 20px;
+}
+.map__controls_bottom {
+  padding: 10px;
+  width: 10%;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.map__controls_bottom .btn {
+  width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+}
+.map__controls_bottom .btn + .btn {
+  margin-top: 20px;
+}
+.map__screen {
+  border: 5px solid #000;
+  position: relative;
+}
+.map__header {
+  padding: 20px;
+}
+.map__main {
+  display: flex;
+  padding: 20px;
+}

@@ -1,0 +1,16 @@
+<div class="auth">
+    <h1>AUTH</h1>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isAuth()" class="form">
+      <div class="form__group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required ngModel>
+      </div>
+
+      <div class="form__group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required ngModel>
+      </div>
+
+      <button type="submit" class="btn" [disabled]="authForm.invalid">Submit</button>
+    </form>
+</div>
