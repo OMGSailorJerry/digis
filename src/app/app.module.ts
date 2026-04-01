@@ -9,13 +9,13 @@ import { MainComponent } from './main/main.component';
 import { AboutComponent } from './about/about.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
 
-import { AuthorizationGruard } from './authorization/authorization-guard.service';
+import { AuthorizationGuard } from './authorization/authorization-guard.service';
 import { AuthorizationService } from './authorization/authorization.service';
 import { MapComponent } from './map/map.component';
 import { MapService } from './shared/map.service';
 
 const appRoutes: Routes = [
-  { path: 'about', component: AboutComponent, canActivate: [AuthorizationGruard] },
+  { path: 'about', component: AboutComponent, canActivate: [AuthorizationGuard] },
   { path: 'main', component: MainComponent},
   { path: 'auth', component: AuthorizationComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' }
@@ -37,7 +37,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule
   ],
-  providers: [AuthorizationGruard, AuthorizationService, MapService],
+  providers: [AuthorizationGuard],
   bootstrap: [AppComponent]
 })
 

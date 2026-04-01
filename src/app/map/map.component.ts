@@ -1,25 +1,31 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { } from '@types/googlemaps';
 import { MapService } from './../shared/map.service';
 
 @Component({
+	standalone: false,
 	selector: 'app-map',
 	templateUrl: './map.component.html',
 	styleUrls: ['./map.component.less']
 })
 export class MapComponent implements OnInit, OnDestroy {
+	@ViewChild('googleMap', { static: true }) gmapElement: any;
 
-	@ViewChild('googleMap') gmapElement: any;
-	map: google.maps.Map;
+	map: google.maps.Map | undefined;
 	markers: google.maps.Marker[] = [];
-	mapProp: { center: google.maps.LatLng, zoom: number; mapTypeId: any; disableDefaultUI: boolean };
-	addMarkerListener: google.maps.MapsEventListener;
-	places: { name: string; type: string; }[];
+	mapProp: { center: google.maps.LatLng, zoom: number; mapTypeId: any; disableDefaultUI: boolean } | undefined;
+	addMarkerListener: google.maps.MapsEventListener | undefined;
+	places: { name: string; type: string; }[] | undefined;
 
 	constructor(private mapService: MapService) { }
 
 	ngOnInit() {
-		navigator.geolocation.getCurrentPosition(this.initMap);
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(this.initMap, () => {
+				this.initMap({ coords: { latitude: 50.4501, longitude: 30.5234 } } as GeolocationPosition);
+			});
+		} else {
+			this.initMap({ coords: { latitude: 50.4501, longitude: 30.5234 } } as GeolocationPosition);
+		}
 		this.places = this.mapService.getPlacesList();
 	};
 
@@ -30,7 +36,7 @@ export class MapComponent implements OnInit, OnDestroy {
 		this.markers = [];
 	};
 
-	initMap = (pos) => {
+	initMap = (pos: GeolocationPosition) => {
 		this.mapProp = {
 			center: new google.maps.LatLng(+pos.coords.latitude, +pos.coords.longitude),
 			zoom: 16,
@@ -46,12 +52,12 @@ export class MapComponent implements OnInit, OnDestroy {
 		marker.setMap(this.map);
 		infowindow.open(this.map, marker);
 
-		this.addMarkerListener = this.map.addListener('click', (event) => {
+		this.addMarkerListener = this.map.addListener('click', (event: {latLng: google.maps.LatLng}) => {
 			this.addMarker(event.latLng);
 		});
 	};
 
-	addMarker = (location) => {
+	addMarker = (location: google.maps.LatLng) => {
 		var marker = new google.maps.Marker({
 			position: location,
 			map: this.map
@@ -60,16 +66,16 @@ export class MapComponent implements OnInit, OnDestroy {
 		this.markers.push(marker);
 	};
 
-	setMarkers = (map) => {
+	setMarkers = (map: google.maps.Map | undefined) => {
 		this.markers.push(...this.mapService.getMarkers());
 
 		for (var i = 0; i < this.markers.length; i++) {
-			this.markers[i].setMap(map);
+			this.markers[i].setMap(map as google.maps.Map);
 		}
 	};
 
 	hideMarkers = () => {
-		this.setMarkers(null);
+		this.setMarkers(undefined);
 	};
 
 	showMarkers = () => {
@@ -80,15 +86,19 @@ export class MapComponent implements OnInit, OnDestroy {
 		this.mapService.saveMarkers(this.markers);
 	};
 
-	callback = (results, status) => {
+	callback = (results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) => {
+		if (!results) return;
 		if (status === google.maps.places.PlacesServiceStatus.OK) {
 			for (var i = 0; i < results.length; i++) {
-				this.addMarker(results[i].geometry.location);
+				if (results && results[i].geometry!.location) {
+					this.addMarker(results![i].geometry!.location!);
+				}
 			}
 		}
 	};
 
-	showplaces = (pos, type) => {
+	showplaces = (pos: google.maps.LatLng, type: string) => {
+		if (!this.map) return;
 		let request = {
 			location: { lat: +pos.lat(), lng: +pos.lng() },
 			radius: 1500,
@@ -100,16 +110,18 @@ export class MapComponent implements OnInit, OnDestroy {
 		service.nearbySearch(request, this.callback);
 	};
 
-	selectPlace = (place) => {
-		this.setMarkers(null);
-		this.showplaces(this.mapProp.center, place)
+	selectPlace = (place: string) => {
+		this.setMarkers(undefined);
+		this.showplaces(this.mapProp!.center, place)
 	};
 
 	zoomIn = () => {
-		this.map.setZoom(this.map.getZoom() + 1);
+		if (!this.map) return;
+		this.map?.setZoom(this.map.getZoom()! + 1);
 	};
 
 	zoomOut = () => {
-		this.map.setZoom(this.map.getZoom() - 1);
+		if (!this.map) return;
+		this.map.setZoom(this.map.getZoom()! - 1);
 	};
 }

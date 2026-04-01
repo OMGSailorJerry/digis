@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthorizationService {
-    user: {
-        property: string;
-    };
+    user: { property: string; } | undefined;
+
     constructor(private router: Router) { }
 
     signinUser(fromForm: string) {

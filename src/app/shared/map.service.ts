@@ -1,7 +1,8 @@
-import { } from '@types/googlemaps';
+import { Injectable } from '@angular/core';
 
+@Injectable({ providedIn: 'root' })
 export class MapService {
-  _savedMarkers = [];
+  _savedMarkers: google.maps.Marker[] = [];
   _places = [
     {name: 'Pharmacies', type: 'pharmacy'},
     {name: 'Gas stations', type: 'gas_station'},
@@ -15,7 +16,7 @@ export class MapService {
     return this._savedMarkers;
   }
 
-  saveMarkers = (markers) => {
+  saveMarkers = (markers: google.maps.Marker[]) => {
     this._savedMarkers = markers;
   }
 

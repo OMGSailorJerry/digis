@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthorizationService } from './authorization.service';
 
 @Component({
+	standalone: false,
 	selector: 'app-auth',
 	templateUrl: './authorization.component.html',
 	styleUrls: ['./authorization.component.less']
